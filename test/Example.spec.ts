@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { Example } from '../src';
+import { Example } from '../src'
 
 describe('Example', () => {
   it('calls function', async () => {
