@@ -1,7 +1,8 @@
 {
   "include": [
     "src/**/*",
-    ".eslintrc.js"
+    ".eslintrc.js",
+    "karma.conf.js"
   ],
   "exclude": [
     "./test/",
