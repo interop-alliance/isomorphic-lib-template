@@ -10,6 +10,10 @@ module.exports = function (config) {
       'test/**/*.ts' // *.tsx for React Jsx
     ],
 
+    karmaTypescriptConfig: {
+      reports: {} // Disables the code coverage report
+    },
+
     preprocessors: {
       '**/*.ts': 'karma-typescript' // *.tsx for React Jsx
     },
@@ -30,8 +34,8 @@ module.exports = function (config) {
     client: {
       mocha: {
         // increase from default 2s
-        timeout: 10000,
-        reporter: 'html'
+        timeout: 10000
+        // reporter: 'html'
       }
     },
 
