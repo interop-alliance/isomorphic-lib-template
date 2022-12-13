@@ -24,7 +24,7 @@ TBD
 
 ## Install
 
-- Node.js 14+ is recommended.
+- Node.js 16+ is recommended.
 
 ### NPM
 
