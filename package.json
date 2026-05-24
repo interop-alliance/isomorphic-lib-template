@@ -4,15 +4,15 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "build": "npm run clear && tsc",
+    "build": "pnpm run clear && tsc",
     "clear": "rimraf dist/*",
     "dev": "vite",
-    "fix": "eslint --fix src test && npm run format",
+    "fix": "eslint --fix src test && pnpm run format",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint src test",
-    "prepare": "npm run build",
-    "rebuild": "npm run clear && npm run build",
-    "test": "npm run lint && npm run test-node && npm run test-browser",
+    "prepare": "pnpm run build",
+    "rebuild": "pnpm run clear && pnpm run build",
+    "test": "pnpm run lint && pnpm run test-node && pnpm run test-browser",
     "test-browser": "playwright test",
     "test-node": "vitest run",
     "test-coverage": "vitest run --coverage"
@@ -57,6 +57,7 @@
   "keywords": [
     "isomorphic"
   ],
+  "packageManager": "pnpm@10.20.0",
   "engines": {
     "node": ">=24.0"
   },
