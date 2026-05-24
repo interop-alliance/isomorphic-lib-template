@@ -2,65 +2,63 @@
   "name": "@digitalcredentials/isomorphic-lib-template",
   "description": "A Typescript/Javascript isomorphic library template, for use in the browser, Node.js, and React Native.",
   "version": "0.0.1",
+  "type": "module",
   "scripts": {
-    "build": "npm run clear && tsc -d",
+    "build": "npm run clear && tsc",
     "clear": "rimraf dist/*",
-    "lint": "ts-standard --fix --project tsconfig.spec.json",
+    "dev": "vite",
+    "fix": "eslint --fix src test && npm run format",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "lint": "eslint src test",
     "prepare": "npm run build",
     "rebuild": "npm run clear && npm run build",
-    "test": "npm run lint && npm run test-node && npm run test-karma",
-    "test-karma": "karma start",
-    "test-node": "cross-env NODE_ENV=test TS_NODE_PROJECT=tsconfig.spec.json TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register --project tsconfig.spec.json 'test/*.ts'"
+    "test": "npm run lint && npm run test-node && npm run test-browser",
+    "test-browser": "playwright test",
+    "test-node": "vitest run",
+    "test-coverage": "vitest run --coverage"
   },
   "files": [
     "dist",
     "README.md",
     "LICENSE.md"
   ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "react-native": "./dist/index.js",
+      "import": "./dist/index.js"
+    }
+  },
   "module": "dist/index.js",
   "browser": "dist/index.js",
   "types": "dist/index.d.ts",
+  "sideEffects": false,
   "dependencies": {
   },
   "devDependencies": {
-    "@types/chai": "^5.0.1",
-    "@types/mocha": "^10.0.10",
-    "@types/node": "^22.10.7",
-    "chai": "^4.3.7",
-    "cross-env": "^7.0.3",
-    "karma": "^6.4.2",
-    "karma-chai": "^0.1.0",
-    "karma-chrome-launcher": "^3.2.0",
-    "karma-mocha": "^2.0.1",
-    "karma-mocha-reporter": "^2.2.5",
-    "karma-sourcemap-loader": "^0.4.0",
-    "karma-typescript": "^5.5.4",
-    "mocha": "^10.2.0",
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^25.9.1",
+    "eslint": "^10.4.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.6.0",
+    "prettier": "^3.8.2",
     "rimraf": "^6.0.1",
-    "ts-node": "^10.9.1",
-    "ts-standard": "^12.0.2",
-    "typescript": "5.2.2"
+    "typescript": "^5.5.0",
+    "typescript-eslint": "^8.59.4",
+    "vite": "^8.0.14",
+    "vitest": "^4.1.0",
+    "@vitest/coverage-v8": "^4.1.0"
   },
   "publishConfig": {
-    "access": "public"
-  },
-  "mocha": {
-    "require": "ts-node/register",
-    "extension": [
-      "ts"
-    ],
-    "spec": "test/**/*.ts"
-  },
-  "ts-standard": {
-    "ignore": [
-      "dist"
-    ]
+    "access": "public",
+    "provenance": true
   },
   "keywords": [
-    "dcc"
+    "isomorphic"
   ],
   "engines": {
-    "node": ">=18.0"
+    "node": ">=24.0"
   },
   "author": {
     "name": "Digital Credentials Consortium",
