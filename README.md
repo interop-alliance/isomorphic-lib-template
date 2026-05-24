@@ -24,14 +24,14 @@ TBD
 
 ## Install
 
-- Node.js 18+ is recommended.
+- Node.js 22+ is recommended.
 
-### NPM
+### PNPM
 
-To install via NPM:
+To install via PNPM:
 
 ```
-npm install @digitalcredentials/isomorphic-lib-template
+pnpm install @digitalcredentials/isomorphic-lib-template
 ```
 
 ### Development
@@ -41,7 +41,7 @@ To install locally (for development):
 ```
 git clone https://github.com/digitalcredentials/isomorphic-lib-template.git
 cd isomorphic-lib-template
-npm install
+pnpm install
 ```
 
 ## Usage
