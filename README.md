@@ -24,7 +24,7 @@ TBD
 
 ## Install
 
-- Node.js 22+ is recommended.
+- Node.js 24+ is recommended.
 
 ### PNPM
 
