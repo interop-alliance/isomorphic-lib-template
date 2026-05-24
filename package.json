@@ -1,5 +1,5 @@
 {
-  "name": "@digitalcredentials/isomorphic-lib-template",
+  "name": "@interop/isomorphic-lib-template",
   "description": "A Typescript/Javascript isomorphic library template, for use in the browser, Node.js, and React Native.",
   "version": "0.0.1",
   "type": "module",
