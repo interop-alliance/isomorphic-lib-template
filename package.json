@@ -68,7 +68,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/interop-alliance/isomorphic-lib-template"
+    "url": "git+https://github.com/interop-alliance/isomorphic-lib-template.git"
   },
   "homepage": "https://github.com/interop-alliance/isomorphic-lib-template",
   "bugs": "https://github.com/interop-alliance/isomorphic-lib-template/issues"
