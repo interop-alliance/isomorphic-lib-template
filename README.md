@@ -3,7 +3,8 @@
 [![Node.js CI](https://github.com/interop-alliance/isomorphic-lib-template/workflows/CI/badge.svg)](https://github.com/interop-alliance/isomorphic-lib-template/actions?query=workflow%3A%22CI%22)
 [![NPM Version](https://img.shields.io/npm/v/@interop/isomorphic-lib-template.svg)](https://npm.im/@interop/isomorphic-lib-template)
 
-> A Typescript/Javascript isomorphic library template, for use in the browser, Node.js, and React Native.
+> A Typescript/Javascript isomorphic library template, for use in the browser,
+> Node.js, and React Native.
 
 ## Table of Contents
 
@@ -50,7 +51,8 @@ TBD
 
 ## Contribute
 
-PRs accepted.
+PRs accepted. See [CONTRIBUTING.md](CONTRIBUTING.md) for editor setup (Prettier,
+ESLint, and EditorConfig) and how it maps to CI.
 
 If editing the Readme, please conform to the
 [standard-readme](https://github.com/RichardLitt/standard-readme) specification.

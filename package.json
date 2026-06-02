@@ -8,11 +8,11 @@
     "clear": "rimraf dist/*",
     "dev": "vite",
     "fix": "eslint --fix src test && pnpm run format",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"*.md\"",
     "lint": "eslint src test",
     "prepare": "pnpm run build",
     "rebuild": "pnpm run clear && pnpm run build",
-    "test": "pnpm run lint && pnpm run test-node && pnpm run test-browser",
+    "test": "pnpm run fix && pnpm run lint && pnpm run test-node && pnpm run test-browser",
     "test-browser": "playwright test",
     "test-node": "vitest run",
     "test-coverage": "vitest run --coverage"
@@ -45,7 +45,7 @@
     "globals": "^17.6.0",
     "prettier": "^3.8.3",
     "rimraf": "^6.1.3",
-    "typescript": "^5.5.0",
+    "typescript": "^5.9.3",
     "typescript-eslint": "^8.59.4",
     "vite": "^8.0.14",
     "vitest": "^4.1.7"
