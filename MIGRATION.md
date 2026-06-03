@@ -33,8 +33,9 @@ before reading.
 
 ### Package manager & engine
 - `pnpm` pinned via `"packageManager": "pnpm@<version>"`.
-- `"engines": { "node": ">=24.0" }`, CI on Node 24. **(Library-specific — see §5 Decision 1: a
-  library shipping to React Native / older runtimes may keep a lower floor.)**
+- `"engines": { "node": ">=24.0" }`, CI on Node 24. **Always raise the target to this value** (and
+  bump the CI Node version to match) — the engine floor is fixed, not a per-library decision. See
+  §5.
 
 ### Scripts (canonical vocabulary)
 ```
@@ -82,7 +83,7 @@ test-coverage vitest run --coverage
 
 ### Packaging (`package.json`)
 - `"type": "module"`, `"sideEffects": false`.
-- `exports`: per entry `{ types, react-native, import }` all pointing at the built `dist/*.js` / `.d.ts`.
+- `exports`: per entry `{ types, react-native, import, default }` all pointing at the built `dist/*.js` / `.d.ts`. The `default` condition is required so CJS-based resolvers (e.g. tsx's static-import resolver, used by some test runners) can resolve the package — the `import` condition alone is only honored by the native ESM resolver.
 - `module`/`browser`/`types` top-level fields set to the built entry.
 - `files: ["dist", "README.md", "LICENSE.md"]`.
 - `publishConfig: { access: "public", provenance: true }`.
@@ -113,7 +114,14 @@ test-coverage vitest run --coverage
    - **Edge:** a `bin` entry ⇒ CLI tool — treat as a library for packaging, but it has no browser
      track. Monorepo ⇒ classify each package.
 
-   **If it's a library:** proceed with steps 1–3 and the full §3 playbook.
+   **If it's a library:** proceed with steps 1–3 and the full §3 playbook. **Then check the source
+   language:** if the library's source is **JavaScript** (`.js`/`.cjs`/`.mjs`, no `.ts`), the plan
+   **must include a full conversion to TypeScript** — this is expected and in-scope for JS targets,
+   not optional, and it is *not* barred by §6 (behavior, public API, and return shapes still stay
+   identical). The conversion is what brings the library-packaging half of §1 into play for a JS lib
+   (`src/*.ts`, the tsconfig pair, the `tsc`→`dist` build, `.d.ts`, `exports` conditions). See the
+   **JavaScript → TypeScript** table in §4 and the dedicated phase in §3. If the source is already
+   TypeScript, no conversion is needed.
 
    **If it's an app:** the library-packaging work **does not apply** — skip `exports` conditions,
    `sideEffects`, the single-entry `tsc` library build, `publishConfig`/provenance, and
@@ -150,6 +158,14 @@ Work on a branch; one commit per phase for easy bisect/revert.
 - **Phase 3 — ESLint flat config.** Delete `.eslintrc.*`; add `eslint.config.js`. Swap devDeps
   (remove legacy configs/plugins; add `@eslint/js`, `typescript-eslint` v8, `eslint-config-prettier`,
   `globals`, eslint 10). Point `project` at `tsconfig.dev.json`. *Gate:* `pnpm run lint` green.
+- **Phase 3.5 — JavaScript → TypeScript** *(JS libraries only; skip if already TS)*. Do this
+  before the tsconfig/build phases so they have `.ts` source to act on. **First generate JSDoc** for
+  the existing JS — `@param`/`@returns`/`@typedef` annotations across the public surface — so the
+  types are seeded and the rename is largely mechanical. Then move source into `src/` and rename
+  `.js`→`.ts`, converting the JSDoc types to TS annotations and adding `import type` where needed.
+  Keep behavior, public API, and return shapes byte-for-byte identical. *Gate:* source compiles
+  under a minimal `tsc` (strict can come in Phase 7); existing tests still green against the built
+  output.
 - **Phase 4 — tsconfig consolidation.** Reduce to `tsconfig.json` + `tsconfig.dev.json`. Adopt
   `Bundler` resolution + `ESNext` + `isolatedModules`. **Keep** any `paths` shims. **Defer**
   `verbatimModuleSyntax` + `noUncheckedIndexedAccess` to Phase 7. Single `tsc` build. Verify every
@@ -191,6 +207,21 @@ subdir). Isolate the Phase 2 reformat.
 | **tape** | rewrite to `describe`/`it` | `t.equal`→`expect().toBe`, `t.deepEqual`→`toEqual`, `t.ok`→`toBeTruthy`, `t.throws`→`toThrow`, drop `t.plan`/`t.end` | wrap setup in hooks | Largest structural rewrite of the three. |
 | **vitest already** | — | — | — | Just align `vite.config.ts` `include`/coverage to §1. |
 
+### JavaScript → TypeScript (JS libraries only)
+The destination is a TS library, so a JS source tree must be converted. Sequence:
+1. **JSDoc pass first.** Annotate the existing `.js` with `@param`/`@returns`/`@typedef` (and
+   `@type`) across at least the public/exported surface. This documents intent, surfaces implicit
+   shapes, and seeds the types — making the subsequent rename mostly mechanical rather than a
+   from-scratch typing effort.
+2. **Move + rename.** Relocate source to `src/` and rename `.js`→`.ts`. Convert JSDoc types into
+   real TS annotations; add `import type` for type-only imports; add explicit return types on the
+   exported API.
+3. **Wire packaging.** This is where the library-packaging fields of §1 land (they had no JS
+   equivalent): the `tsconfig.json`/`tsconfig.dev.json` pair (Phase 4), `tsc`→`dist` build, `.d.ts`
+   emission, and `exports` `{ types, react-native, import, default }` conditions (Phase 8).
+- **Invariant:** behavior, public API, and return shapes are unchanged — the Phase 0 baseline
+  pass-count still holds after conversion.
+
 ### Browser tests → playwright
 - **karma (often already disabled):** remove `karma.conf.*` + `karma-*` deps. Add
   `playwright.config.ts` + `test/index.html` + `test/browser/*.spec.ts` that dynamically imports the
@@ -200,20 +231,24 @@ subdir). Isolate the Phase 2 reformat.
 
 ---
 
-## 5. Decisions to surface before executing
+## 5. Decisions
 
-These change the work and shouldn't be assumed — raise them with the user up front:
+### Fixed (do not ask — apply these)
+- **Node engine floor.** Always raise `engines.node` to the template's value (`>=24`) and bump the
+  CI Node version to match. Not a per-library decision, regardless of React Native / older-runtime
+  history.
+- **Coverage service.** Use local vitest v8 + lcov only. **Drop any Codecov/Coveralls upload step**
+  and the GitHub token/secret it requires — do not carry it forward or add it.
+- **Browser test depth (default).** Default to the harness + **one smoke spec** (prove the bundle
+  loads and a core API path works in-browser). Only port fuller browser coverage if the user
+  explicitly asks.
 
-1. **Node engine floor.** Template wants `>=24`. Libraries shipping to React Native / older
-   runtimes may need a lower floor (`>=18`/`>=20`).
-2. **Test file naming.** Template uses `.test.ts` (node) / `.spec.ts` (browser). Keep the
+### Surface to the user (these still change the work)
+1. **Test file naming.** Template uses `.test.ts` (node) / `.spec.ts` (browser). Keep the
    library's existing convention (point vitest `include` at it; less git churn) or rename to match?
-3. **Browser test depth.** Port real coverage to playwright, or harness + one smoke spec?
-4. **Strict TS (Phase 7).** Adopt `verbatimModuleSyntax` + `noUncheckedIndexedAccess` now, or as a
+2. **Strict TS (Phase 7).** Adopt `verbatimModuleSyntax` + `noUncheckedIndexedAccess` now, or as a
    follow-up PR? (Recommend follow-up — it's source-level work, not infra.)
-5. **Coverage service.** Template uses local vitest v8 + lcov. If the library uses coveralls/codecov,
-   keep the upload step or drop to local?
-6. **Provenance / publishing.** Adopt template `publish.yml` + `publishConfig.provenance`, or leave
+3. **Provenance / publishing.** Adopt template `publish.yml` + `publishConfig.provenance`, or leave
    the existing release flow?
 
 ---
