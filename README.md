@@ -59,4 +59,4 @@ If editing the Readme, please conform to the
 
 ## License
 
-[MIT License](LICENSE.md) © 2026 Interop Alliance and Dmitri Zagidulin.
+[MIT License](LICENSE.md) © 2026 Interop Alliance.

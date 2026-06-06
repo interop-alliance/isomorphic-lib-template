@@ -81,3 +81,6 @@ test-results/
 
 # MacOS
 .DS_Store
+
+# Local copy of the migration guide (kept out of new repos created from this template)
+_spec/
