@@ -38,6 +38,72 @@ extension even though source files are `.ts` — e.g.
 `import { Example } from '../../src/index.js'`. TypeScript's
 `moduleResolution: Bundler` resolves these to the `.ts` source at compile time.
 
+## Roadmap & Task Conventions
+
+All roadmap tracking lives in [ROADMAP.md](./ROADMAP.md): narrative context
+plus structured work items. Never create a parallel task list elsewhere (no
+`TODO.md`, no task lists in other docs).
+
+Each work item follows this schema:
+
+- A heading `### ILT-N: Title`, then a field block, then free prose context.
+- Fields: `status` (`todo` / `in-progress` / `draft` / `done`), `priority`
+  (`high` / `medium` / `low`), `labels` (comma-separated), optional
+  `blocked-by` (other `ILT-N` ids), a `touches:` list where the rule below
+  applies, and an `acceptance:` checklist.
+- `draft` marks items with no actionable done-state yet (blocked externally or
+  parking records); a draft states _why_ instead of acceptance criteria and
+  must gain acceptance criteria when promoted to `todo`.
+- `touches:` is required for any item that changes a spec, a wire contract, or
+  a shared `@interop/*` API. It lists every affected repo AND that repo's
+  ARCHITECTURE/AGENTS files -- the docs are entries in their own right, not an
+  afterthought, since doc drift is what the field exists to prevent. Each entry
+  starts unresolved and is resolved in place: marked shipped (naming what
+  landed) or explicitly waived as `unaffected: <repo> (<why>)`.
+
+Rules:
+
+- Item ids are permanent and never reused. A new item takes the next unused
+  number, regardless of which section it lands in.
+- Every non-draft item needs acceptance criteria before it may be moved to
+  `in-progress`.
+- Statuses are edited in place (change the `status:` field); acceptance
+  checkboxes are ticked as they are met.
+- An item carrying a `touches:` field may not flip to `done` while any entry in
+  it is unresolved -- an unresolved entry is unfinished work of the item
+  itself, not a follow-up.
+- Completed items move **verbatim** (number, title, field block, prose, with
+  their `done` date) from ROADMAP.md to
+  [archived-roadmap.md](./archived-roadmap.md) once shipped, append-only --
+  this keeps ILT-N references resolvable. CHANGELOG.md remains the permanent
+  record of what landed. Do not rewrite or summarize items on the way in, and
+  do not fix old references.
+- Work discovered mid-implementation gets its own item immediately, noting
+  `discovered-from: ILT-N` in its prose, plus a `blocked-by` link if it blocks
+  anything.
+- Reference item ids in commit messages and PR descriptions where relevant.
+
+## Releasing
+
+The `@interop/*` publish convention (this section is its canonical home;
+downstream repos defer here):
+
+- The version published is the one the CHANGELOG's top entry names; its `TBD`
+  date is replaced with the release date at publish time.
+- **Breaking-release doc-vs-code audit.** Before publishing a version whose
+  CHANGELOG carries a breaking entry, audit the ARCHITECTURE/AGENTS files of
+  the consumers named in the affected contract's "Parties to this contract"
+  registry (the AGENTS.md tables in app-connect-spec,
+  encrypted-collections-spec, and the WAS spec repo), and file roadmap items
+  for what the audit finds. The cheap mechanism, as run 2026-08-11: parallel
+  read-only agents, one per consumer repo, each checking that repo's
+  ARCHITECTURE/AGENTS statements against its own code and the new contract --
+  a recipe, not an aspiration. A consumer with nothing affected is recorded
+  as `unaffected: <repo> (<why>)` on the driving roadmap item.
+- A breaking profile change also bumps the profile's version handle where the
+  contract states one (e.g. the App Connect context URL) and the CHANGELOG
+  names the profile version the package now speaks.
+
 ## Conventions
 
 Code style, refactoring, JSDoc, comment, and error-handling conventions live in
