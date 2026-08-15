@@ -5,3 +5,5 @@
 ### Added
 
 - Initial commit.
+- Decision-record convention: `decisions/` directory (README + TEMPLATE) for
+  cross-repo decisions, plus the "Decision Records" section in AGENTS.md.

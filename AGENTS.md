@@ -83,6 +83,17 @@ Rules:
   anything.
 - Reference item ids in commit messages and PR descriptions where relevant.
 
+## Decision Records
+
+Cross-repo decisions -- the ones whose driving roadmap item carries a
+`touches:` field -- get a durable record in the owning repo's `decisions/`
+directory (`decisions/NNNN-slug.md`). The convention and template are
+canonical in this repo's [decisions/](./decisions/) directory: required
+sections Context / Decision / Consequences / Revisit Criteria, Rejected
+Alternatives where applicable, records superseded in place rather than
+rewritten. Repo-internal decisions stay in ARCHITECTURE.md prose and do not
+get a record.
+
 ## Releasing
 
 The `@interop/*` publish convention (this section is its canonical home;
