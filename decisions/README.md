@@ -1,20 +1,26 @@
 # Decision records
 
-Durable records of cross-repo decisions: the decision, its rationale, the
+Durable records of decisions: the decision, its rationale, the
 alternatives rejected, and the conditions under which to revisit it. This
 directory holds the convention and the template; each owning repo keeps its
 own `decisions/` directory with its records.
 
 ## Scope rule
 
-A decision earns a record exactly when it is cross-repo: it changes a spec,
-a wire contract, or a shared `@interop/*` API -- the same test that makes a
-roadmap item carry a `touches:` field. Repo-internal decisions stay in that
-repo's ARCHITECTURE.md prose; recording them here would duplicate it.
+A decision earns a record in two cases.
 
+Cross-repo: it changes a spec, a wire contract, or a shared `@interop/*`
+API -- the same test that makes a roadmap item carry a `touches:` field.
 The record lives in the repo that owns the contract (the spec repo for a
 profile decision, the shared package for an API decision), regardless of
 which repo's roadmap drove it.
+
+Repo-internal do-not-reopen: a pre-implementation design review (a repo's
+roadmap may gate cross-cutting items on one) rejects an approach with
+concrete revisit criteria, and core contributors judge the rejection worth
+a durable record. The record lives in the repo whose design rejected the
+approach. Other repo-internal decisions stay in that repo's ARCHITECTURE.md
+prose; recording them here would duplicate it.
 
 ## Conventions
 

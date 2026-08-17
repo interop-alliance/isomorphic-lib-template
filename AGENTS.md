@@ -50,6 +50,7 @@ Each work item follows this schema:
 - Fields: `status` (`todo` / `in-progress` / `draft` / `done`), `priority`
   (`high` / `medium` / `low`), `labels` (comma-separated), optional
   `blocked-by` (other `ILT-N` ids), a `touches:` list where the rule below
+  applies, `design:` + `design-approved:` where the design gate below
   applies, and an `acceptance:` checklist.
 - `draft` marks items with no actionable done-state yet (blocked externally or
   parking records); a draft states _why_ instead of acceptance criteria and
@@ -81,6 +82,15 @@ Rules:
 - Work discovered mid-implementation gets its own item immediately, noting
   `discovered-from: ILT-N` in its prose, plus a `blocked-by` link if it blocks
   anything.
+- **The design gate**: a cross-cutting item (one that changes persistence
+  semantics, key custody, a ceremony's stage order, or any invariant the
+  repo's ARCHITECTURE.md documents) carries `design:` (a doc per
+  [designs/TEMPLATE.md](./designs/TEMPLATE.md)) and `design-approved:` (a
+  date only core contributors set), and no implementation starts until the
+  doc is approved. Approval extracts the design's durable decisions --
+  contract-binding ones, and do-not-reopen rejections of an approach --
+  into tracked `decisions/` records. The full definition is canonical in
+  this repo's [designs/](./designs/) directory.
 - Reference item ids in commit messages and PR descriptions where relevant.
 
 ## Decision Records
@@ -91,8 +101,11 @@ directory (`decisions/NNNN-slug.md`). The convention and template are
 canonical in this repo's [decisions/](./decisions/) directory: required
 sections Context / Decision / Consequences / Revisit Criteria, Rejected
 Alternatives where applicable, records superseded in place rather than
-rewritten. Repo-internal decisions stay in ARCHITECTURE.md prose and do not
-get a record.
+rewritten. A pre-implementation design review may additionally mint a
+record for a repo-internal do-not-reopen decision (an approach rejected
+with concrete revisit criteria); other repo-internal decisions stay in
+ARCHITECTURE.md prose and do not get a record. The full scope rule lives
+in the decisions/ README.
 
 ## Releasing
 
