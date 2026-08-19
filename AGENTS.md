@@ -38,6 +38,17 @@ extension even though source files are `.ts` — e.g.
 `import { Example } from '../../src/index.js'`. TypeScript's
 `moduleResolution: Bundler` resolves these to the `.ts` source at compile time.
 
+## Architecture
+
+The current shape of the library lives in
+[ARCHITECTURE.md](./ARCHITECTURE.md), rationale inline, updated in the
+same change set that alters the shape. It is load-bearing for the
+conventions below: the design gate scopes on the invariants it
+documents, `touches:` entries name it as a deliverable, and the
+breaking-release audit checks it against the code. The template copy
+is a skeleton (layer map, numbered invariants, ownership heuristics,
+current state labels); scaffolded repos fill it in and keep the sections.
+
 ## Roadmap & Task Conventions
 
 All roadmap tracking lives in [ROADMAP.md](./ROADMAP.md): narrative context
