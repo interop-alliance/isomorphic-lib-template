@@ -2,6 +2,8 @@
 
 - Status: accepted | superseded by NNNN
 - Date: YYYY-MM-DD
+- Amendments: omit until the first in-place refinement; then one dated
+  line per amendment (`YYYY-MM-DD: what changed, in one sentence`)
 - Driving work: what prompted the decision, described as the work it was.
   Do not cite roadmap item ids; those live in gitignored planning files
   and mean nothing to a reader of the published record.
@@ -29,7 +31,7 @@ decision from being relitigated from scratch.
 ## Consequences
 
 What follows -- costs accepted, invariants downstream code may now rely on,
-work the decision creates or forecloses. Honest about the negatives.
+work the decision creates or forecloses. Accurately describe the negatives.
 
 ## Revisit Criteria
 

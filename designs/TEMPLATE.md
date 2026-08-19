@@ -9,7 +9,7 @@
   records minted at approval (see sections 5 and 6)
 
 Structure for every design doc behind the roadmap's design gate (see
-this directory's README). Keep each section honest and short; the doc
+this directory's README). Keep each section accurate and short; the doc
 exists so the interaction enumeration happens before code, where a
 finding costs a paragraph edit instead of a review-and-fix cycle.
 Delete this preamble in a real doc.

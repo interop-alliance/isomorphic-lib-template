@@ -12,3 +12,7 @@
 - Design-gate convention: `designs/` directory (README + TEMPLATE) for
   pre-implementation design docs on cross-cutting items, plus the
   `design:` / `design-approved:` item fields and gate rule in AGENTS.md.
+- ARCHITECTURE.md skeleton (layer map, numbered invariants, ownership
+  heuristics, current state labels), plus the "Architecture" section in
+  AGENTS.md; the design gate, `touches:`, and the breaking-release audit
+  all key on this file.

@@ -34,9 +34,16 @@ prose; recording them here would duplicate it.
   deciding roadmap item. Describe the driving work by what it was; do not
   cite roadmap item ids (they live in gitignored planning files). The
   roadmap item may point at the record, not the other way around.
-- Records are append-only in spirit: do not rewrite a record to match a new
-  decision. A reversal or refinement gets its own record; the old one's
-  Status becomes `superseded by NNNN` and its text stays intact.
+- Refinements and clarifications are amended in place: edit the record so
+  its text states the current rule, and add a dated one-line entry to an
+  `Amendments` list in the record's header block, so the change is visible
+  without git archaeology. A reader should get the whole current decision
+  from one document, without chasing pointers.
+- A reversal still gets its own record; the old one's Status becomes
+  `superseded by NNNN` and its text stays intact. A reversal's rationale
+  argues against the old record rather than tightening it, and the old
+  rationale must survive so the original position is not relitigated from
+  scratch.
 - Prefer Revisit Criteria over speculative flexibility: state the concrete
   evidence that would justify reopening, so a "deliberately not" rule does
   not depend on someone remembering why.
