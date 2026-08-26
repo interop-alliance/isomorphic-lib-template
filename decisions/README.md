@@ -22,6 +22,32 @@ a durable record. The record lives in the repo whose design rejected the
 approach. Other repo-internal decisions stay in that repo's ARCHITECTURE.md
 prose; recording them here would duplicate it.
 
+## Qualifying test
+
+The scope rule says where a record may come from. Within either case,
+write a record only when all three hold:
+
+1. Hard to reverse: changing course later has a real cost (a shipped
+   wire format, a published API, a ceremony order other repos rely on).
+2. Surprising without context: a reader of the code would wonder why it
+   was done this way, or would assume the opposite.
+3. A real trade-off: there were genuine alternatives and one was chosen
+   for specific reasons.
+
+A decision that is easy to reverse will just be reversed. One that is
+not surprising needs no explanation. One with no real alternative is
+"we did the obvious thing", and ARCHITECTURE.md prose covers it.
+
+Decisions that usually pass: a deliberate deviation from the obvious
+path (so the next contributor does not "fix" it); a rejected alternative
+whose rejection is not obvious (so it is not re-proposed in six months);
+a constraint not visible in the code (a partner's behaviour, a custody
+rule, a compliance limit); a boundary decision stating what this repo
+does not own. The explicit no is as valuable as the yes.
+
+Create a repo's `decisions/` directory when its first record is written,
+not at scaffold time.
+
 ## Conventions
 
 - Files are `decisions/NNNN-kebab-case-slug.md`, zero-padded, sequential per
@@ -49,3 +75,9 @@ prose; recording them here would duplicate it.
   not depend on someone remembering why.
 - Reference records from ARCHITECTURE.md / AGENTS.md where the resulting
   shape is described, not from code comments.
+- Skills written for an ADR convention (`docs/adr/`, "offer an ADR") map
+  onto this directory. Their offer is a proposal: the record is written
+  from TEMPLATE.md, with all required sections, after the qualifying
+  test and core-contributor approval. A one-paragraph ADR is not a
+  record here; the Rejected Alternatives and Revisit Criteria sections
+  are the parts that stop relitigation.

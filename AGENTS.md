@@ -47,7 +47,31 @@ conventions below: the design gate scopes on the invariants it
 documents, `touches:` entries name it as a deliverable, and the
 breaking-release audit checks it against the code. The template copy
 is a skeleton (layer map, numbered invariants, ownership heuristics,
-current state labels); scaffolded repos fill it in and keep the sections.
+glossary, current state labels); scaffolded repos fill it in and keep
+the sections.
+
+### Domain language
+
+ARCHITECTURE.md's Glossary is the repo's vocabulary. Use its terms as
+written in code identifiers, test names, docs, commit messages, and
+conversation, and treat the `Avoid:` synonyms as banned.
+
+Refine the glossary as you work, in the same change set that settles a
+term. When a term in the conversation conflicts with the glossary, say
+so before using it. When a term is vague or overloaded, propose one
+canonical term and record it. When a new module or concept needs a name
+the glossary lacks, add the entry. A new term that becomes a wire
+artifact (a field name, a log entry kind, an error name) is a wire-level
+convention and still needs core-contributor sign-off before it is coded;
+the glossary entry is written after that sign-off, not instead of it.
+
+Skills and agent instructions written for other conventions refer to a
+`CONTEXT.md` or `CONTEXT-MAP.md` glossary and a `docs/adr/` directory.
+In this ecosystem those map to ARCHITECTURE.md's Glossary section and
+the repo's `decisions/` directory. Do not create `CONTEXT.md`,
+`CONTEXT-MAP.md`, or `docs/adr/`. The context map is the ecosystem
+itself: each repo's "What lives elsewhere" and "Ownership heuristics"
+sections state the relationships between repos.
 
 ## Roadmap & Task Conventions
 
@@ -58,6 +82,15 @@ plus structured work items. Never create a parallel task list elsewhere (no
 Each work item follows this schema:
 
 - A heading `### ILT-N: Title`, then a field block, then free prose context.
+- The prose opens with a `Context:` paragraph: a few plain-language sentences
+  stating what is wrong today, how it came about, and why it matters,
+  readable on its own without following any file pointer. The detailed
+  mechanics (file:line cites, stage orders, edge cases) follow in ordinary
+  prose after it. Acceptance boxes record exit criteria, not motivation, so
+  the Context paragraph is where a returning reader or an agent picks up the
+  problem; on a design-gated item it also seeds the design doc's
+  Problem-and-scope section. Items predating the convention (added
+  2026-08-25) are backfilled when next touched, not in bulk.
 - Fields: `status` (`todo` / `in-progress` / `draft` / `done`), `priority`
   (`high` / `medium` / `low`), `labels` (comma-separated), optional
   `blocked-by` (other `ILT-N` ids), a `touches:` list where the rule below
@@ -116,7 +149,11 @@ rewritten. A pre-implementation design review may additionally mint a
 record for a repo-internal do-not-reopen decision (an approach rejected
 with concrete revisit criteria); other repo-internal decisions stay in
 ARCHITECTURE.md prose and do not get a record. The full scope rule lives
-in the decisions/ README.
+in the decisions/ README. Within either case, a record is written only
+when the decision passes the qualifying test in that README (hard to
+reverse, surprising without context, a real trade-off); a skill's offer
+to "write an ADR" is a proposal for such a record, pending that test and
+core-contributor approval, and uses `decisions/TEMPLATE.md`.
 
 ## Releasing
 
