@@ -10,9 +10,9 @@
 - Decision-record scope widened: a pre-implementation design review may also
   mint a record for a repo-internal do-not-reopen decision.
 - Design-gate convention: `designs/` directory (README + TEMPLATE) for
-  pre-implementation design docs on cross-cutting items, plus the
-  `design:` / `design-approved:` item fields and gate rule in AGENTS.md.
+  pre-implementation design docs on cross-cutting items, plus the `design:` /
+  `design-approved:` item fields and gate rule in AGENTS.md.
 - ARCHITECTURE.md skeleton (layer map, numbered invariants, ownership
   heuristics, current state labels), plus the "Architecture" section in
-  AGENTS.md; the design gate, `touches:`, and the breaking-release audit
-  all key on this file.
+  AGENTS.md; the design gate, `touches:`, and the breaking-release audit all key
+  on this file.

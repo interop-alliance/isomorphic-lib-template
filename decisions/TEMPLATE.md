@@ -2,8 +2,6 @@
 
 - Status: accepted | superseded by NNNN
 - Date: YYYY-MM-DD
-- Amendments: omit until the first in-place refinement; then one dated
-  line per amendment (`YYYY-MM-DD: what changed, in one sentence`)
 - Driving work: what prompted the decision, described as the work it was.
   Do not cite roadmap item ids; those live in gitignored planning files
   and mean nothing to a reader of the published record.
@@ -43,3 +41,12 @@ Reopen this decision when one or more of the following holds:
 
 If revisited, note any constraint on how (e.g. "as a new parallel profile,
 not an in-place change to the shipped wire format").
+
+## Changelog
+
+Omit until the record's first change; then one dated line per change, newest
+last:
+
+- YYYY-MM-DD: what changed, in one sentence. Say plainly when a rule was
+  reversed rather than refined, so a reader knows to read the prior version.
+

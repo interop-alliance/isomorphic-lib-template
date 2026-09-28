@@ -60,16 +60,24 @@ not at scaffold time.
   deciding roadmap item. Describe the driving work by what it was; do not
   cite roadmap item ids (they live in gitignored planning files). The
   roadmap item may point at the record, not the other way around.
-- Refinements and clarifications are amended in place: edit the record so
-  its text states the current rule, and add a dated one-line entry to an
-  `Amendments` list in the record's header block, so the change is visible
-  without git archaeology. A reader should get the whole current decision
-  from one document, without chasing pointers.
-- A reversal still gets its own record; the old one's Status becomes
-  `superseded by NNNN` and its text stays intact. A reversal's rationale
-  argues against the old record rather than tightening it, and the old
-  rationale must survive so the original position is not relitigated from
-  scratch.
+- When a record's rule changes, rewrite the record in place so its text
+  states the current rule, and add a Changelog line. This holds for a
+  reversal as much as for a refinement: do not layer caveats onto text that
+  no longer states the rule, and do not split one subject across two
+  documents. A reader should get the whole current decision from one
+  document, without reconstructing it from a stack of qualifications or
+  chasing pointers. The superseded text stays in version control, and the
+  Changelog line is what tells a reader to go look.
+- A new record is for a new SUBJECT, not for a disagreement with an old
+  one. When a later decision genuinely displaces a record's whole subject
+  rather than changing its rule, the old one's Status becomes
+  `superseded by NNNN` and its text stays intact.
+- Every record carries a `## Changelog` section once its first change
+  lands: one dated line per change, saying what changed in a sentence.
+  Rewriting is what keeps the record readable; the changelog is what keeps
+  the rewrite honest, so a reader can see that a rule moved and when. A
+  reversal's line says so explicitly, since that is the change a reader is
+  most likely to need to trace.
 - Prefer Revisit Criteria over speculative flexibility: state the concrete
   evidence that would justify reopening, so a "deliberately not" rule does
   not depend on someone remembering why.
